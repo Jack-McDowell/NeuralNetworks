@@ -29,10 +29,8 @@ public class LookupTable {
 
         map = new double[steps];
 
-        steps--;//A bit of a hack, but it lets me make the table have range [min, max] instead of [min, max)
-
-        for(int i = 0; i <= (max - min) / steps; i++){
-            double inValue = min + (((double)i) / steps) * (max - min);
+        for(int i = 0; i < steps; i++){
+            double inValue = min + (((double)i) / (steps - 1)) * (max - min);
             map[i] = func.apply(inValue);
         }
 
@@ -44,8 +42,8 @@ public class LookupTable {
      * If `val` is in the range of the lookup table, it finds the two nearest points and performs a linear
      * interpolation of the values. If `val` is greater than `max`, this returns `func(max)`. Otherwise,
      * `func(min)` will be returned. These values can be changed with `setMinValue` and `setMaxValue`
-     * @param val
-     * @return
+     * @param val The input value for the function
+     * @return The estimated output value of the function
      */
     public double lookup(double val){
         if(val > max)
@@ -67,8 +65,8 @@ public class LookupTable {
 
     /**
      * Returns the exact value of the function at a given point
-     * @param val
-     * @return
+     * @param val The input value for the function
+     * @return The exact output value of the function
      */
     public double calcExat(double val){
         return func.apply(val);
